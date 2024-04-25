@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using Confluent.Kafka;
 using Shared.Integration.Models.Dtos.Sync;
+using SyncServer.Services;
 using Config = Shared.Integration.Configuration.Config;
 
 namespace SyncServer
@@ -46,6 +47,10 @@ namespace SyncServer
                         var cr = c.Consume(cts.Token);
                         // Process the received message
                         Console.WriteLine($"Received message from topic '{cr.Topic}', message: '{cr.Value}'");
+
+                        //Initialize services
+                        var syncService = new SyncService();
+
                         // Process the message according to its topic
                         var wsMessage = new SyncWarningSentenceDto();
                         var productWsMessage = new SyncProductWarningSentenceDto();
@@ -55,36 +60,64 @@ namespace SyncServer
                         {
                             case Config.Kafka.Topics.SyncAddWs:
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
-                                Console.WriteLine("Synchronizing Warning Sentence - Adding Warning Sentence with Id: " +
-                                                  wsMessage.WarningSentenceId);
+                                Console.WriteLine
+                                (
+                                    "Synchronizing Warning Sentence - Adding Warning Sentence with Id: " +
+                                    wsMessage.WarningSentenceId
+                                );
+
+                                syncService.SyncWarningSentence(wsMessage);
                                 break;
                             case Config.Kafka.Topics.SyncUpdateWs:
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
-                                Console.WriteLine(
+                                Console.WriteLine
+                                (
                                     "Synchronizing Warning Sentence - Updating Warning Sentence with Id: " +
-                                    wsMessage.WarningSentenceId);
+                                    wsMessage.WarningSentenceId
+                                );
+
+                                syncService.SyncWarningSentence(wsMessage);
                                 break;
                             case Config.Kafka.Topics.SyncDeleteWs:
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
-                                Console.WriteLine(
+                                Console.WriteLine
+                                (
                                     "Synchronizing Warning Sentence - Deleting Warning Sentence with Id: " +
-                                    wsMessage.WarningSentenceId);
+                                    wsMessage.WarningSentenceId
+                                );
+
+                                syncService.SyncWarningSentence(wsMessage);
                                 break;
                             case Config.Kafka.Topics.SyncAddProduct:
                                 productWsMessage = JsonSerializer.Deserialize<SyncProductWarningSentenceDto>(cr.Value);
-                                Console.WriteLine("Synchronizing Product - Adding Warning Sentence with Id: " +
-                                                  productWsMessage.WarningSentenceId + " to Product with Id: " +
-                                                  productWsMessage.ProductId);
+                                Console.WriteLine
+                                (
+                                    "Synchronizing Product - Adding Warning Sentence with Id: " +
+                                    productWsMessage.WarningSentenceId + " to Product with Id: " +
+                                    productWsMessage.ProductId
+                                );
+
+                                syncService.SyncProducts(productWsMessage);
                                 break;
                             case Config.Kafka.Topics.SyncDeleteProduct:
                                 productWsMessage = JsonSerializer.Deserialize<SyncProductWarningSentenceDto>(cr.Value);
-                                Console.WriteLine("Synchronizing Product - Removing Warning Sentence with Id: " +
-                                                  productWsMessage.WarningSentenceId + " from Product with Id: " +
-                                                  productWsMessage.ProductId);
+                                Console.WriteLine
+                                (
+                                    "Synchronizing Product - Removing Warning Sentence with Id: " +
+                                    productWsMessage.WarningSentenceId + " from Product with Id: " +
+                                    productWsMessage.ProductId
+                                );
+
+                                syncService.SyncProducts(productWsMessage);
                                 break;
                             case Config.Kafka.Topics.SyncAddUser:
                                 userMessage = JsonSerializer.Deserialize<SyncUserDto>(cr.Value);
-                                Console.WriteLine("Synchronizing User - Adding User with Id: " + userMessage.UserId);
+                                Console.WriteLine
+                                (
+                                    "Synchronizing User - Adding User with Id: " + userMessage.UserId
+                                );
+
+                                syncService.SyncUsers(userMessage);
                                 break;
                         }
                     }
