@@ -62,7 +62,7 @@ namespace SyncServer
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing Warning Sentence - Adding Warning Sentence with Id: " +
+                                    "Synchronizing Warning Sentence with SEA - Adding Warning Sentence with Id: " +
                                     wsMessage.WarningSentenceId
                                 );
 
@@ -72,7 +72,7 @@ namespace SyncServer
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing Warning Sentence - Updating Warning Sentence with Id: " +
+                                    "Synchronizing Warning Sentence with SEA - Updating Warning Sentence with Id: " +
                                     wsMessage.WarningSentenceId
                                 );
 
@@ -82,7 +82,7 @@ namespace SyncServer
                                 wsMessage = JsonSerializer.Deserialize<SyncWarningSentenceDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing Warning Sentence - Deleting Warning Sentence with Id: " +
+                                    "Synchronizing Warning Sentence with SEA - Deleting Warning Sentence with Id: " +
                                     wsMessage.WarningSentenceId
                                 );
 
@@ -92,7 +92,7 @@ namespace SyncServer
                                 productWsMessage = JsonSerializer.Deserialize<SyncProductWarningSentenceDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing Product - Adding Warning Sentence with Id: " +
+                                    "Synchronizing Product with SEA - Adding Warning Sentence with Id: " +
                                     productWsMessage.WarningSentenceId + " to Product with Id: " +
                                     productWsMessage.ProductId
                                 );
@@ -103,7 +103,7 @@ namespace SyncServer
                                 productWsMessage = JsonSerializer.Deserialize<SyncProductWarningSentenceDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing Product - Removing Warning Sentence with Id: " +
+                                    "Synchronizing Product with SEA - Removing Warning Sentence with Id: " +
                                     productWsMessage.WarningSentenceId + " from Product with Id: " +
                                     productWsMessage.ProductId
                                 );
@@ -114,7 +114,7 @@ namespace SyncServer
                                 userMessage = JsonSerializer.Deserialize<SyncUserDto>(cr.Value);
                                 Console.WriteLine
                                 (
-                                    "Synchronizing User - Adding User with Id: " + userMessage.UserId
+                                    "Synchronizing User with SEA - Adding User with Id: " + userMessage.UserId
                                 );
 
                                 syncService.SyncUsers(userMessage);
